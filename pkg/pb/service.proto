@@ -32,6 +32,39 @@ message VersionResponse {
   string version = 1;
 }
 
+message UpdateDescriptionRequest {
+  string description = 1;
+  int64 service = 2;
+}
+
+message UpdateDescriptionResponse {
+  string description = 1;
+}
+
+message GetDescriptionRequest {
+  int64 service = 1;
+}
+
+message GetDescriptionResponse {
+  string description = 1;
+}
+
+message GetUptimeRequest {
+  int64 service = 1;
+}
+
+message GetUptimeResponse {
+  int64 uptime = 1;
+}
+
+message GetRequestsRequest {
+  int64 service = 1;
+}
+
+message GetRequestsResponse {
+  int64 requests = 1;
+}
+
 // TODO: Define the MyResponder service and its methods. Feel free
 // to change the name of MyResponder to better-suit your naming
 // conventions.
@@ -39,5 +72,19 @@ service MyResponder {
   rpc GetVersion (google.protobuf.Empty) returns (VersionResponse) {
     
   }
+  rpc UpdateDescription (UpdateDescriptionRequest) returns (UpdateDescriptionResponse){
 
+  }
+
+  rpc GetDescription (GetDescriptionRequest) returns (GetDescriptionResponse){
+
+  }
+
+  rpc GetUptime (GetUptimeRequest) returns (GetUptimeResponse){
+
+  }
+
+  rpc GetRequests (GetRequestsRequest) returns (GetRequestsResponse){
+
+  }
 }

@@ -4,7 +4,6 @@ package pb
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -21,6 +20,10 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MyResponderClient interface {
 	GetVersion(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VersionResponse, error)
+	UpdateDescription(ctx context.Context, in *UpdateDescriptionRequest, opts ...grpc.CallOption) (*UpdateDescriptionResponse, error)
+	GetDescription(ctx context.Context, in *GetDescriptionRequest, opts ...grpc.CallOption) (*GetDescriptionResponse, error)
+	GetUptime(ctx context.Context, in *GetUptimeRequest, opts ...grpc.CallOption) (*GetUptimeResponse, error)
+	GetRequests(ctx context.Context, in *GetRequestsRequest, opts ...grpc.CallOption) (*GetRequestsResponse, error)
 }
 
 type myResponderClient struct {
@@ -40,11 +43,51 @@ func (c *myResponderClient) GetVersion(ctx context.Context, in *emptypb.Empty, o
 	return out, nil
 }
 
+func (c *myResponderClient) UpdateDescription(ctx context.Context, in *UpdateDescriptionRequest, opts ...grpc.CallOption) (*UpdateDescriptionResponse, error) {
+	out := new(UpdateDescriptionResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/UpdateDescription", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *myResponderClient) GetDescription(ctx context.Context, in *GetDescriptionRequest, opts ...grpc.CallOption) (*GetDescriptionResponse, error) {
+	out := new(GetDescriptionResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/GetDescription", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *myResponderClient) GetUptime(ctx context.Context, in *GetUptimeRequest, opts ...grpc.CallOption) (*GetUptimeResponse, error) {
+	out := new(GetUptimeResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/GetUptime", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *myResponderClient) GetRequests(ctx context.Context, in *GetRequestsRequest, opts ...grpc.CallOption) (*GetRequestsResponse, error) {
+	out := new(GetRequestsResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/GetRequests", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MyResponderServer is the server API for MyResponder service.
 // All implementations should embed UnimplementedMyResponderServer
 // for forward compatibility
 type MyResponderServer interface {
 	GetVersion(context.Context, *emptypb.Empty) (*VersionResponse, error)
+	UpdateDescription(context.Context, *UpdateDescriptionRequest) (*UpdateDescriptionResponse, error)
+	GetDescription(context.Context, *GetDescriptionRequest) (*GetDescriptionResponse, error)
+	GetUptime(context.Context, *GetUptimeRequest) (*GetUptimeResponse, error)
+	GetRequests(context.Context, *GetRequestsRequest) (*GetRequestsResponse, error)
 }
 
 // UnimplementedMyResponderServer should be embedded to have forward compatible implementations.
@@ -53,6 +96,18 @@ type UnimplementedMyResponderServer struct {
 
 func (UnimplementedMyResponderServer) GetVersion(context.Context, *emptypb.Empty) (*VersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVersion not implemented")
+}
+func (UnimplementedMyResponderServer) UpdateDescription(context.Context, *UpdateDescriptionRequest) (*UpdateDescriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDescription not implemented")
+}
+func (UnimplementedMyResponderServer) GetDescription(context.Context, *GetDescriptionRequest) (*GetDescriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDescription not implemented")
+}
+func (UnimplementedMyResponderServer) GetUptime(context.Context, *GetUptimeRequest) (*GetUptimeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUptime not implemented")
+}
+func (UnimplementedMyResponderServer) GetRequests(context.Context, *GetRequestsRequest) (*GetRequestsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRequests not implemented")
 }
 
 // UnsafeMyResponderServer may be embedded to opt out of forward compatibility for this service.
@@ -84,6 +139,78 @@ func _MyResponder_GetVersion_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _MyResponder_UpdateDescription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDescriptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).UpdateDescription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/UpdateDescription",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).UpdateDescription(ctx, req.(*UpdateDescriptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_GetDescription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDescriptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).GetDescription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/GetDescription",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).GetDescription(ctx, req.(*GetDescriptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_GetUptime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUptimeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).GetUptime(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/GetUptime",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).GetUptime(ctx, req.(*GetUptimeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_GetRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRequestsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).GetRequests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/GetRequests",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).GetRequests(ctx, req.(*GetRequestsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // MyResponder_ServiceDesc is the grpc.ServiceDesc for MyResponder service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -94,6 +221,22 @@ var MyResponder_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetVersion",
 			Handler:    _MyResponder_GetVersion_Handler,
+		},
+		{
+			MethodName: "UpdateDescription",
+			Handler:    _MyResponder_UpdateDescription_Handler,
+		},
+		{
+			MethodName: "GetDescription",
+			Handler:    _MyResponder_GetDescription_Handler,
+		},
+		{
+			MethodName: "GetUptime",
+			Handler:    _MyResponder_GetUptime_Handler,
+		},
+		{
+			MethodName: "GetRequests",
+			Handler:    _MyResponder_GetRequests_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

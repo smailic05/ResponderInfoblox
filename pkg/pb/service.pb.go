@@ -7,15 +7,14 @@
 package pb
 
 import (
-	reflect "reflect"
-	sync "sync"
-
 	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	reflect "reflect"
+	sync "sync"
 )
 
 const (
@@ -74,6 +73,390 @@ func (x *VersionResponse) GetVersion() string {
 	return ""
 }
 
+type UpdateDescriptionRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Description string `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
+	Service     int64  `protobuf:"varint,2,opt,name=service,proto3" json:"service,omitempty"`
+}
+
+func (x *UpdateDescriptionRequest) Reset() {
+	*x = UpdateDescriptionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateDescriptionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDescriptionRequest) ProtoMessage() {}
+
+func (x *UpdateDescriptionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDescriptionRequest.ProtoReflect.Descriptor instead.
+func (*UpdateDescriptionRequest) Descriptor() ([]byte, []int) {
+	return file_github_com_my_responder_pkg_pb_service_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *UpdateDescriptionRequest) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *UpdateDescriptionRequest) GetService() int64 {
+	if x != nil {
+		return x.Service
+	}
+	return 0
+}
+
+type UpdateDescriptionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Description string `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
+}
+
+func (x *UpdateDescriptionResponse) Reset() {
+	*x = UpdateDescriptionResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateDescriptionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateDescriptionResponse) ProtoMessage() {}
+
+func (x *UpdateDescriptionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateDescriptionResponse.ProtoReflect.Descriptor instead.
+func (*UpdateDescriptionResponse) Descriptor() ([]byte, []int) {
+	return file_github_com_my_responder_pkg_pb_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *UpdateDescriptionResponse) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type GetDescriptionRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Service int64 `protobuf:"varint,1,opt,name=service,proto3" json:"service,omitempty"`
+}
+
+func (x *GetDescriptionRequest) Reset() {
+	*x = GetDescriptionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetDescriptionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDescriptionRequest) ProtoMessage() {}
+
+func (x *GetDescriptionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDescriptionRequest.ProtoReflect.Descriptor instead.
+func (*GetDescriptionRequest) Descriptor() ([]byte, []int) {
+	return file_github_com_my_responder_pkg_pb_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetDescriptionRequest) GetService() int64 {
+	if x != nil {
+		return x.Service
+	}
+	return 0
+}
+
+type GetDescriptionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Description string `protobuf:"bytes,1,opt,name=description,proto3" json:"description,omitempty"`
+}
+
+func (x *GetDescriptionResponse) Reset() {
+	*x = GetDescriptionResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetDescriptionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDescriptionResponse) ProtoMessage() {}
+
+func (x *GetDescriptionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDescriptionResponse.ProtoReflect.Descriptor instead.
+func (*GetDescriptionResponse) Descriptor() ([]byte, []int) {
+	return file_github_com_my_responder_pkg_pb_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetDescriptionResponse) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+type GetUptimeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Service int64 `protobuf:"varint,1,opt,name=service,proto3" json:"service,omitempty"`
+}
+
+func (x *GetUptimeRequest) Reset() {
+	*x = GetUptimeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUptimeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUptimeRequest) ProtoMessage() {}
+
+func (x *GetUptimeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUptimeRequest.ProtoReflect.Descriptor instead.
+func (*GetUptimeRequest) Descriptor() ([]byte, []int) {
+	return file_github_com_my_responder_pkg_pb_service_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *GetUptimeRequest) GetService() int64 {
+	if x != nil {
+		return x.Service
+	}
+	return 0
+}
+
+type GetUptimeResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Uptime int64 `protobuf:"varint,1,opt,name=uptime,proto3" json:"uptime,omitempty"`
+}
+
+func (x *GetUptimeResponse) Reset() {
+	*x = GetUptimeResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetUptimeResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetUptimeResponse) ProtoMessage() {}
+
+func (x *GetUptimeResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetUptimeResponse.ProtoReflect.Descriptor instead.
+func (*GetUptimeResponse) Descriptor() ([]byte, []int) {
+	return file_github_com_my_responder_pkg_pb_service_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *GetUptimeResponse) GetUptime() int64 {
+	if x != nil {
+		return x.Uptime
+	}
+	return 0
+}
+
+type GetRequestsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Service int64 `protobuf:"varint,1,opt,name=service,proto3" json:"service,omitempty"`
+}
+
+func (x *GetRequestsRequest) Reset() {
+	*x = GetRequestsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRequestsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRequestsRequest) ProtoMessage() {}
+
+func (x *GetRequestsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRequestsRequest.ProtoReflect.Descriptor instead.
+func (*GetRequestsRequest) Descriptor() ([]byte, []int) {
+	return file_github_com_my_responder_pkg_pb_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetRequestsRequest) GetService() int64 {
+	if x != nil {
+		return x.Service
+	}
+	return 0
+}
+
+type GetRequestsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Requests int64 `protobuf:"varint,1,opt,name=requests,proto3" json:"requests,omitempty"`
+}
+
+func (x *GetRequestsResponse) Reset() {
+	*x = GetRequestsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetRequestsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRequestsResponse) ProtoMessage() {}
+
+func (x *GetRequestsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_github_com_my_responder_pkg_pb_service_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRequestsResponse.ProtoReflect.Descriptor instead.
+func (*GetRequestsResponse) Descriptor() ([]byte, []int) {
+	return file_github_com_my_responder_pkg_pb_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *GetRequestsResponse) GetRequests() int64 {
+	if x != nil {
+		return x.Requests
+	}
+	return 0
+}
+
 var File_github_com_my_responder_pkg_pb_service_proto protoreflect.FileDescriptor
 
 var file_github_com_my_responder_pkg_pb_service_proto_rawDesc = []byte{
@@ -94,15 +477,66 @@ var file_github_com_my_responder_pkg_pb_service_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x2b, 0x0a, 0x0f, 0x56, 0x65, 0x72,
 	0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07,
 	0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x76,
-	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x32, 0x53, 0x0a, 0x0b, 0x4d, 0x79, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x64, 0x65, 0x72, 0x12, 0x44, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x56, 0x65, 0x72, 0x73,
-	0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x1a, 0x1c, 0x2e, 0x6d, 0x79,
-	0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
-	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x23, 0x5a, 0x21, 0x67,
-	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6d, 0x79, 0x2d, 0x72, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x70, 0x62, 0x3b, 0x70, 0x62,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0x56, 0x0a, 0x18, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
+	0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f,
+	0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70,
+	0x74, 0x69, 0x6f, 0x6e, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x22, 0x3d,
+	0x0a, 0x19, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74,
+	0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x64,
+	0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x31, 0x0a,
+	0x15, 0x47, 0x65, 0x74, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63,
+	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
+	0x22, 0x3a, 0x0a, 0x16, 0x47, 0x65, 0x74, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x2c, 0x0a, 0x10,
+	0x47, 0x65, 0x74, 0x55, 0x70, 0x74, 0x69, 0x6d, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x18, 0x0a, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x22, 0x2b, 0x0a, 0x11, 0x47, 0x65,
+	0x74, 0x55, 0x70, 0x74, 0x69, 0x6d, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x16, 0x0a, 0x06, 0x75, 0x70, 0x74, 0x69, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52,
+	0x06, 0x75, 0x70, 0x74, 0x69, 0x6d, 0x65, 0x22, 0x2e, 0x0a, 0x12, 0x47, 0x65, 0x74, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a,
+	0x07, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x07,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x22, 0x31, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1a,
+	0x0a, 0x08, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03,
+	0x52, 0x08, 0x72, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x32, 0xb8, 0x03, 0x0a, 0x0b, 0x4d,
+	0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x12, 0x44, 0x0a, 0x0a, 0x47, 0x65,
+	0x74, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
+	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79,
+	0x1a, 0x1c, 0x2e, 0x6d, 0x79, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2e, 0x56,
+	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
+	0x12, 0x64, 0x0a, 0x11, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69,
+	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x25, 0x2e, 0x6d, 0x79, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x64, 0x65, 0x72, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69,
+	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6d,
+	0x79, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x5b, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x44, 0x65, 0x73,
+	0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x22, 0x2e, 0x6d, 0x79, 0x72, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x44, 0x65, 0x73, 0x63, 0x72, 0x69,
+	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x23, 0x2e, 0x6d,
+	0x79, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2e, 0x47, 0x65, 0x74, 0x44, 0x65,
+	0x73, 0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x12, 0x4c, 0x0a, 0x09, 0x47, 0x65, 0x74, 0x55, 0x70, 0x74, 0x69, 0x6d, 0x65,
+	0x12, 0x1d, 0x2e, 0x6d, 0x79, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2e, 0x47,
+	0x65, 0x74, 0x55, 0x70, 0x74, 0x69, 0x6d, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x1e, 0x2e, 0x6d, 0x79, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2e, 0x47, 0x65,
+	0x74, 0x55, 0x70, 0x74, 0x69, 0x6d, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x12, 0x52, 0x0a, 0x0b, 0x47, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73,
+	0x12, 0x1f, 0x2e, 0x6d, 0x79, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2e, 0x47,
+	0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x20, 0x2e, 0x6d, 0x79, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72, 0x2e,
+	0x47, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x23, 0x5a, 0x21, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x6d, 0x79, 0x2d, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x64, 0x65, 0x72,
+	0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x70, 0x62, 0x3b, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -117,16 +551,32 @@ func file_github_com_my_responder_pkg_pb_service_proto_rawDescGZIP() []byte {
 	return file_github_com_my_responder_pkg_pb_service_proto_rawDescData
 }
 
-var file_github_com_my_responder_pkg_pb_service_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_github_com_my_responder_pkg_pb_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_github_com_my_responder_pkg_pb_service_proto_goTypes = []interface{}{
-	(*VersionResponse)(nil), // 0: myresponder.VersionResponse
-	(*emptypb.Empty)(nil),   // 1: google.protobuf.Empty
+	(*VersionResponse)(nil),           // 0: myresponder.VersionResponse
+	(*UpdateDescriptionRequest)(nil),  // 1: myresponder.UpdateDescriptionRequest
+	(*UpdateDescriptionResponse)(nil), // 2: myresponder.UpdateDescriptionResponse
+	(*GetDescriptionRequest)(nil),     // 3: myresponder.GetDescriptionRequest
+	(*GetDescriptionResponse)(nil),    // 4: myresponder.GetDescriptionResponse
+	(*GetUptimeRequest)(nil),          // 5: myresponder.GetUptimeRequest
+	(*GetUptimeResponse)(nil),         // 6: myresponder.GetUptimeResponse
+	(*GetRequestsRequest)(nil),        // 7: myresponder.GetRequestsRequest
+	(*GetRequestsResponse)(nil),       // 8: myresponder.GetRequestsResponse
+	(*emptypb.Empty)(nil),             // 9: google.protobuf.Empty
 }
 var file_github_com_my_responder_pkg_pb_service_proto_depIdxs = []int32{
-	1, // 0: myresponder.MyResponder.GetVersion:input_type -> google.protobuf.Empty
-	0, // 1: myresponder.MyResponder.GetVersion:output_type -> myresponder.VersionResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	9, // 0: myresponder.MyResponder.GetVersion:input_type -> google.protobuf.Empty
+	1, // 1: myresponder.MyResponder.UpdateDescription:input_type -> myresponder.UpdateDescriptionRequest
+	3, // 2: myresponder.MyResponder.GetDescription:input_type -> myresponder.GetDescriptionRequest
+	5, // 3: myresponder.MyResponder.GetUptime:input_type -> myresponder.GetUptimeRequest
+	7, // 4: myresponder.MyResponder.GetRequests:input_type -> myresponder.GetRequestsRequest
+	0, // 5: myresponder.MyResponder.GetVersion:output_type -> myresponder.VersionResponse
+	2, // 6: myresponder.MyResponder.UpdateDescription:output_type -> myresponder.UpdateDescriptionResponse
+	4, // 7: myresponder.MyResponder.GetDescription:output_type -> myresponder.GetDescriptionResponse
+	6, // 8: myresponder.MyResponder.GetUptime:output_type -> myresponder.GetUptimeResponse
+	8, // 9: myresponder.MyResponder.GetRequests:output_type -> myresponder.GetRequestsResponse
+	5, // [5:10] is the sub-list for method output_type
+	0, // [0:5] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -150,6 +600,102 @@ func file_github_com_my_responder_pkg_pb_service_proto_init() {
 				return nil
 			}
 		}
+		file_github_com_my_responder_pkg_pb_service_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateDescriptionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_my_responder_pkg_pb_service_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateDescriptionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_my_responder_pkg_pb_service_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetDescriptionRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_my_responder_pkg_pb_service_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetDescriptionResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_my_responder_pkg_pb_service_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUptimeRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_my_responder_pkg_pb_service_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetUptimeResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_my_responder_pkg_pb_service_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRequestsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_github_com_my_responder_pkg_pb_service_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetRequestsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -157,7 +703,7 @@ func file_github_com_my_responder_pkg_pb_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_github_com_my_responder_pkg_pb_service_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
