@@ -4,30 +4,10 @@ package myresponder;
 
 import "google/protobuf/empty.proto";
 import "google/api/annotations.proto";
-import "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
-import "protoc-gen-openapiv2/options/annotations.proto";
 
 
 option go_package = "github.com/my-responder/pkg/pb;pb";
 
-// The MyResponder service, GetVersion RPC, and Version message
-// make up a simple "starter" example. It allows the Atlas CLI to generate an
-// end-to-end example for the sake of demonstration. Feel free to change 
-// GetVersion to better-suit how your versioning system, or get rid of it entirely.
-
-// Here are some helpful resources to aid you in your protobuf quest:
-// https://github.com/infobloxopen/atlas-contacts-app/blob/master/proto/contacts.proto
-// https://developers.google.com/protocol-buffers/docs/proto
-// https://github.com/grpc-ecosystem/grpc-gateway
-// https://developers.google.com/protocol-buffers/docs/style
-
-// Happy protobuffing!
-
-// TODO: Write a protobuf schema for the MyResponder service. The 
-// messages and RPCs will compose the API for the service.
-
-// TODO: Structure your own protobuf messages. Each protocol buffer message is a 
-// small logical record of information, containing a series of name-value pairs.
 message VersionResponse {
   string version = 1;
 }
@@ -65,6 +45,28 @@ message GetRequestsResponse {
   int64 requests = 1;
 }
 
+message GetModeRequest {
+}
+
+message GetModeResponse {
+  int64 mode = 1;
+}
+
+message SetModeRequest {
+  int64 mode = 2;
+}
+
+message SetModeResponse {
+  int64 mode = 1;
+}
+
+message RestartRequest {
+  int64 service = 1;
+}
+
+message RestartResponse {
+}
+
 // TODO: Define the MyResponder service and its methods. Feel free
 // to change the name of MyResponder to better-suit your naming
 // conventions.
@@ -85,6 +87,17 @@ service MyResponder {
   }
 
   rpc GetRequests (GetRequestsRequest) returns (GetRequestsResponse){
+
+  }
+  rpc GetMode (GetModeRequest) returns (GetModeResponse){
+
+  }
+
+  rpc SetMode (SetModeRequest) returns (SetModeResponse){
+
+  }
+
+  rpc Restart (RestartRequest) returns (RestartResponse){
 
   }
 }

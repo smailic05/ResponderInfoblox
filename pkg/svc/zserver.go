@@ -14,7 +14,8 @@ import (
 
 const (
 	// version is the current version of the service
-	version = "0.0.1"
+	version  = "0.0.1"
+	Internal = "Internal error"
 )
 
 // Default implementation of the MyResponder server interface
@@ -82,6 +83,39 @@ func (s *server) GetRequests(ctx context.Context, req *pb.GetRequestsRequest) (*
 	}
 	s.Requests += 1
 	return &pb.GetRequestsResponse{Requests: s.Requests}, nil
+}
+func (s *server) GetMode(ctx context.Context, req *pb.GetModeRequest) (*pb.GetModeResponse, error) {
+	data := []byte("ping")
+	s.pubsub.Publish("get-mode", data)
+	i, err := strconv.Atoi(<-s.pubsub.Buffer)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetModeResponse{Mode: int64(i)}, nil
+}
+
+func (s *server) SetMode(ctx context.Context, req *pb.SetModeRequest) (*pb.SetModeResponse, error) {
+	data := []byte("ping")
+	s.pubsub.Publish("set-mode", data)
+	i, err := strconv.Atoi(<-s.pubsub.Buffer)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.SetModeResponse{Mode: int64(i)}, nil
+}
+
+func (s *server) Restart(ctx context.Context, req *pb.RestartRequest) (*pb.RestartResponse, error) {
+	if req.Service != 1 {
+		data := []byte("ping")
+		s.pubsub.Publish("restart", data)
+		ok := <-s.pubsub.Buffer
+		if ok != "" {
+			return nil, status.Errorf(codes.Internal, "Error: %s, when restarting storage", Internal)
+		}
+		return &pb.RestartResponse{}, nil
+	}
+	// TODO RESTART
+	return &pb.RestartResponse{}, nil
 }
 
 // NewBasicServer returns an instance of the default server interface
