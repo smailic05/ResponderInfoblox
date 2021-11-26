@@ -2,6 +2,7 @@ package dapr
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -11,12 +12,17 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+type Message struct {
+	Id   int
+	Data string
+}
+
 type PubSub struct {
 	client         client.Client
 	Logger         *logrus.Logger
 	TopicSubscribe string
 	Name           string
-	Buffer         chan string
+	Buffer         chan Message
 }
 
 func InitPubsub(topic string, pubsubName string, appPort int, grpcPort int, log *logrus.Logger) (*PubSub, error) {
@@ -26,7 +32,7 @@ func InitPubsub(topic string, pubsubName string, appPort int, grpcPort int, log 
 		Logger:         log,
 		TopicSubscribe: topic,
 		Name:           pubsubName,
-		Buffer:         make(chan string, 100),
+		Buffer:         make(chan Message, 100),
 	}
 
 	if pubsubName != "" && topic != "" && grpcPort >= 1 {
@@ -79,15 +85,28 @@ func (p *PubSub) initSubscriber(appPort int) {
 }
 
 func (p *PubSub) eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
-	p.Buffer <- fmt.Sprintf("%s", e.Data)
+	message := Message{}
+	parsed, ok := e.Data.([]byte)
+	if !ok {
+		return false, nil
+	}
+	err = json.Unmarshal(parsed, &message)
+	if err != nil {
+		p.Logger.Debug(err)
+		return false, err
+	}
+	p.Buffer <- message
 	return false, nil
 }
 
-func (p *PubSub) Publish(topic string, msg []byte) error {
+func (p *PubSub) Publish(topic string, msg Message) error {
 	if p.client == nil {
 		return errors.New("client is not initialized")
 	}
-
-	err := p.client.PublishEvent(context.Background(), p.Name, topic, msg)
+	msgMarshal, err := json.Marshal(msg)
+	if err != nil {
+		return err
+	}
+	err = p.client.PublishEvent(context.Background(), p.Name, topic, msgMarshal)
 	return err
 }
