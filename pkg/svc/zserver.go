@@ -7,8 +7,10 @@ import (
 	"time"
 
 	"github.com/golang/protobuf/ptypes/empty"
-	"github.com/my-responder/pkg/dapr"
-	"github.com/my-responder/pkg/pb"
+	"github.com/google/uuid"
+	"github.com/smailic05/ResponderInfoblox/pkg/dapr"
+	topics "github.com/smailic05/ResponderInfoblox/pkg/model"
+	"github.com/smailic05/ResponderInfoblox/pkg/pb"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -27,6 +29,7 @@ type server struct {
 	Requests    int64
 	pubsub      *dapr.PubSub
 	mtx         sync.RWMutex
+	mtxDescr    sync.RWMutex
 }
 
 func (s *server) GetRequestsFromServer() int {
@@ -49,18 +52,22 @@ func (*server) GetVersion(context.Context, *empty.Empty) (*pb.VersionResponse, e
 
 func (s *server) GetDescription(ctx context.Context, req *pb.GetDescriptionRequest) (*pb.GetDescriptionResponse, error) {
 	if req.GetService() != 2 {
-		id := s.GetRequestsFromServer()
+		id := uuid.New()
 		data := dapr.Message{Id: id}
-		s.pubsub.Publish("info", data)
-		resp := <-s.pubsub.Buffer
-		for id != resp.Id {
-			s.pubsub.Buffer <- resp
-			resp = <-s.pubsub.Buffer
+		channel := make(chan dapr.Message)
+		s.pubsub.Buffer[id] = channel
+		s.pubsub.Publish(topics.GetDescriptionTopic, data)
+		select {
+		case <-time.After(time.Second * 5):
+			s.pubsub.DeleteFromMap(id)
+			return nil, status.Error(codes.DeadlineExceeded, "Deadline Exceeded")
+		case resp := <-channel:
+			s.pubsub.DeleteFromMap(id)
+			return &pb.GetDescriptionResponse{Description: resp.Data}, nil
 		}
-		return &pb.GetDescriptionResponse{Description: resp.Data}, nil
 	}
 	s.IncRequests()
-	return &pb.GetDescriptionResponse{Description: s.Description}, nil
+	return &pb.GetDescriptionResponse{Description: s.GetDescriptionFromServer()}, nil
 }
 
 func (s *server) UpdateDescription(ctx context.Context, req *pb.UpdateDescriptionRequest) (*pb.UpdateDescriptionResponse, error) {
@@ -68,113 +75,140 @@ func (s *server) UpdateDescription(ctx context.Context, req *pb.UpdateDescriptio
 		return nil, status.Errorf(codes.InvalidArgument, "Description can't be empty")
 	}
 	if req.GetService() != 2 {
-		id := s.GetRequestsFromServer()
+		id := uuid.New()
 		data := dapr.Message{Id: id, Data: req.Description}
-		s.pubsub.Publish("update-info", data)
-		resp := <-s.pubsub.Buffer
-		for id != resp.Id {
-			s.pubsub.Buffer <- resp
-			resp = <-s.pubsub.Buffer
+		channel := make(chan dapr.Message)
+		s.pubsub.Buffer[id] = channel
+		s.pubsub.Publish(topics.UpdateDescriptionTopic, data)
+		select {
+		case <-time.After(time.Second * 5):
+			s.pubsub.DeleteFromMap(id)
+			return nil, status.Error(codes.DeadlineExceeded, "Deadline Exceeded")
+		case resp := <-channel:
+			s.pubsub.DeleteFromMap(id)
+			return &pb.UpdateDescriptionResponse{Description: resp.Data}, nil
 		}
-		return &pb.UpdateDescriptionResponse{Description: resp.Data}, nil
 	}
 	s.IncRequests()
-	s.Description = req.Description
-	return &pb.UpdateDescriptionResponse{Description: s.Description}, nil
+	s.UpdateDescriptionFromServer(req.Description)
+	return &pb.UpdateDescriptionResponse{Description: s.GetDescriptionFromServer()}, nil
 }
 
 func (s *server) GetUptime(ctx context.Context, req *pb.GetUptimeRequest) (*pb.GetUptimeResponse, error) {
 	if req.GetService() != 2 {
-		id := s.GetRequestsFromServer()
+		id := uuid.New()
 		data := dapr.Message{Id: id}
-		s.pubsub.Publish("uptime", data)
-		resp := <-s.pubsub.Buffer
-		for id != resp.Id {
-			s.pubsub.Buffer <- resp
-			resp = <-s.pubsub.Buffer
+		channel := make(chan dapr.Message)
+		s.pubsub.Buffer[id] = channel
+		s.pubsub.Publish(topics.GetUptimeTopic, data)
+		select {
+		case <-time.After(time.Second * 5):
+			s.pubsub.DeleteFromMap(id)
+			return nil, status.Error(codes.DeadlineExceeded, "Deadline Exceeded")
+		case resp := <-channel:
+			delete(s.pubsub.Buffer, id)
+			i, err := strconv.Atoi(resp.Data)
+			if err != nil {
+				return nil, err
+			}
+			return &pb.GetUptimeResponse{Uptime: int64(i)}, nil
 		}
+	}
+	id := uuid.New()
+	s.IncRequests()
+	data := dapr.Message{Id: id}
+	channel := make(chan dapr.Message)
+	s.pubsub.Buffer[id] = channel
+	s.pubsub.Publish(topics.GetUptimeTopic, data)
+	select {
+	case <-time.After(time.Second * 5):
+		s.pubsub.DeleteFromMap(id)
+		return nil, status.Error(codes.DeadlineExceeded, "Deadline Exceeded")
+	case resp := <-channel:
+		s.pubsub.DeleteFromMap(id)
 		i, err := strconv.Atoi(resp.Data)
 		if err != nil {
 			return nil, err
 		}
-		return &pb.GetUptimeResponse{Uptime: int64(i)}, nil
+		if i == 0 {
+			return &pb.GetUptimeResponse{}, status.Error(codes.Unavailable, "Service is Unavailable")
+		}
+		uptime := time.Now().Unix() - s.Timestamp.Unix()
+		return &pb.GetUptimeResponse{Uptime: uptime}, nil
 	}
-	id := s.GetRequestsFromServer()
-	data := dapr.Message{Id: id}
-	s.pubsub.Publish("get-mode", data)
-	resp := <-s.pubsub.Buffer
-	for id != resp.Id {
-		s.pubsub.Buffer <- resp
-		resp = <-s.pubsub.Buffer
-	}
-	i, err := strconv.Atoi(resp.Data)
-	if err != nil {
-		return nil, err
-	}
-	s.IncRequests()
-	if i == 0 {
-		return &pb.GetUptimeResponse{}, status.Error(codes.Unavailable, "Service is Unavailable")
-	}
-	uptime := time.Now().Unix() - s.Timestamp.Unix()
-	return &pb.GetUptimeResponse{Uptime: uptime}, nil
 }
 
 func (s *server) GetRequests(ctx context.Context, req *pb.GetRequestsRequest) (*pb.GetRequestsResponse, error) {
 	if req.GetService() != 2 {
-		id := s.GetRequestsFromServer()
+		id := uuid.New()
 		data := dapr.Message{Id: id}
-		s.pubsub.Publish("requests", data)
-		resp := <-s.pubsub.Buffer
-		for id != resp.Id {
-			s.pubsub.Buffer <- resp
-			resp = <-s.pubsub.Buffer
+		channel := make(chan dapr.Message)
+		s.pubsub.Buffer[id] = channel
+		s.pubsub.Publish(topics.GetRequestsTopic, data)
+		select {
+		case <-time.After(time.Second * 5):
+			s.pubsub.DeleteFromMap(id)
+			return nil, status.Error(codes.DeadlineExceeded, "Deadline Exceeded")
+		case resp := <-channel:
+			s.pubsub.DeleteFromMap(id)
+			i, err := strconv.Atoi(resp.Data)
+			if err != nil {
+				return nil, err
+			}
+			return &pb.GetRequestsResponse{Requests: int64(i)}, nil
 		}
-		i, err := strconv.Atoi(resp.Data)
-		if err != nil {
-			return nil, err
-		}
-		return &pb.GetRequestsResponse{Requests: int64(i)}, nil
+
 	}
 	s.IncRequests()
 	return &pb.GetRequestsResponse{Requests: int64(s.GetRequestsFromServer())}, nil
 }
 func (s *server) GetMode(ctx context.Context, req *pb.GetModeRequest) (*pb.GetModeResponse, error) {
-	id := s.GetRequestsFromServer()
-	data := dapr.Message{Id: int(id)}
-	s.pubsub.Publish("get-mode", data)
-	resp := <-s.pubsub.Buffer
-	for id != resp.Id {
-		s.pubsub.Buffer <- resp
-		resp = <-s.pubsub.Buffer
+	id := uuid.New()
+	data := dapr.Message{Id: id}
+	channel := make(chan dapr.Message)
+	s.pubsub.Buffer[id] = channel
+	s.pubsub.Publish(topics.GetModeTopic, data)
+	select {
+	case <-time.After(time.Second * 5):
+		s.pubsub.DeleteFromMap(id)
+		return nil, status.Error(codes.DeadlineExceeded, "Deadline Exceeded")
+	case resp := <-channel:
+		s.pubsub.DeleteFromMap(id)
+		i, err := strconv.Atoi(resp.Data)
+		if err != nil {
+			return nil, err
+		}
+		s.IncRequests()
+		return &pb.GetModeResponse{Mode: int64(i)}, nil
 	}
-	i, err := strconv.Atoi(resp.Data)
-	if err != nil {
-		return nil, err
-	}
-	s.IncRequests()
-	return &pb.GetModeResponse{Mode: int64(i)}, nil
+
 }
 
 func (s *server) SetMode(ctx context.Context, req *pb.SetModeRequest) (*pb.SetModeResponse, error) {
-	id := s.GetRequestsFromServer()
+	id := uuid.New()
 	data := dapr.Message{Id: id}
-	s.pubsub.Publish("set-mode", data)
-	resp := <-s.pubsub.Buffer
-	for id != resp.Id {
-		s.pubsub.Buffer <- resp
-		resp = <-s.pubsub.Buffer
+	channel := make(chan dapr.Message)
+	s.pubsub.Buffer[id] = channel
+	s.pubsub.Publish(topics.SetModeTopic, data)
+	select {
+	case <-time.After(time.Second * 5):
+		s.pubsub.DeleteFromMap(id)
+		return nil, status.Error(codes.DeadlineExceeded, "Deadline Exceeded")
+	case resp := <-channel:
+		s.pubsub.DeleteFromMap(id)
+		i, err := strconv.Atoi(resp.Data)
+		if err != nil {
+			return nil, err
+		}
+		s.IncRequests()
+		return &pb.SetModeResponse{Mode: int64(i)}, nil
 	}
-	i, err := strconv.Atoi(resp.Data)
-	if err != nil {
-		return nil, err
-	}
-	s.IncRequests()
-	return &pb.SetModeResponse{Mode: int64(i)}, nil
+
 }
 
 func (s *server) Restart(ctx context.Context, req *pb.RestartRequest) (*pb.RestartResponse, error) {
 	if req.Service != 2 {
-		s.pubsub.Publish("restart", dapr.Message{})
+		s.pubsub.Publish(topics.RestartTopic, dapr.Message{})
 		return &pb.RestartResponse{}, nil
 	}
 	s.Description = viper.GetString("app.id")
@@ -186,4 +220,16 @@ func (s *server) Restart(ctx context.Context, req *pb.RestartRequest) (*pb.Resta
 // NewBasicServer returns an instance of the default server interface
 func NewBasicServer(dapr *dapr.PubSub) (pb.MyResponderServer, error) {
 	return &server{Description: "Responder", Timestamp: time.Now(), pubsub: dapr}, nil
+}
+
+func (s *server) GetDescriptionFromServer() string {
+	s.mtxDescr.RLock()
+	defer s.mtxDescr.RUnlock()
+	return s.Description
+}
+
+func (s *server) UpdateDescriptionFromServer(description string) {
+	s.mtxDescr.RLock()
+	s.Description = description
+	s.mtxDescr.RUnlock()
 }
