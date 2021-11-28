@@ -5,15 +5,17 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"sync"
 
 	"github.com/dapr/go-sdk/client"
 	"github.com/dapr/go-sdk/service/common"
 	daprd "github.com/dapr/go-sdk/service/grpc"
+	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 )
 
 type Message struct {
-	Id   int
+	Id   uuid.UUID
 	Data string
 }
 
@@ -22,7 +24,8 @@ type PubSub struct {
 	Logger         *logrus.Logger
 	TopicSubscribe string
 	Name           string
-	Buffer         chan Message
+	Buffer         map[uuid.UUID]chan Message
+	mtx            sync.RWMutex
 }
 
 func InitPubsub(topic string, pubsubName string, appPort int, grpcPort int, log *logrus.Logger) (*PubSub, error) {
@@ -32,7 +35,7 @@ func InitPubsub(topic string, pubsubName string, appPort int, grpcPort int, log 
 		Logger:         log,
 		TopicSubscribe: topic,
 		Name:           pubsubName,
-		Buffer:         make(chan Message, 100),
+		Buffer:         make(map[uuid.UUID]chan Message),
 	}
 
 	if pubsubName != "" && topic != "" && grpcPort >= 1 {
@@ -95,7 +98,10 @@ func (p *PubSub) eventHandler(ctx context.Context, e *common.TopicEvent) (retry 
 		p.Logger.Debug(err)
 		return false, err
 	}
-	p.Buffer <- message
+	p.Logger.Debug(message)
+	p.mtx.Lock()
+	p.Buffer[message.Id] <- message
+	p.mtx.Unlock()
 	return false, nil
 }
 
