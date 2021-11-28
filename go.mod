@@ -1,4 +1,4 @@
-module github.com/my-responder
+module github.com/smailic05/ResponderInfoblox
 
 go 1.16
 
