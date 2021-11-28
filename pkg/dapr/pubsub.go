@@ -116,3 +116,9 @@ func (p *PubSub) Publish(topic string, msg Message) error {
 	err = p.client.PublishEvent(context.Background(), p.Name, topic, msgMarshal)
 	return err
 }
+
+func (p *PubSub) DeleteFromMap(id uuid.UUID) {
+	p.mtx.Lock()
+	delete(p.Buffer, id)
+	p.mtx.Unlock()
+}

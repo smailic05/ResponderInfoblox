@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/golang/protobuf/ptypes/empty"
-	"github.com/my-responder/pkg/dapr"
-	"github.com/my-responder/pkg/pb"
+	"github.com/smailic05/ResponderInfoblox/pkg/dapr"
+	"github.com/smailic05/ResponderInfoblox/pkg/pb"
 )
 
 func TestGetVersion(t *testing.T) {
