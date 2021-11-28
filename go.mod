@@ -1,4 +1,4 @@
-module github.com/my-responder
+module github.com/smailic05/ResponderInfoblox
 
 go 1.16
 
@@ -9,10 +9,10 @@ require (
 	github.com/dapr/dapr v1.5.0 // indirect
 	github.com/dapr/go-sdk v1.3.0
 	github.com/golang/protobuf v1.5.2
-	github.com/google/uuid v1.3.0 // indirect
+	github.com/google/uuid v1.3.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0 // indirect
 	github.com/infobloxopen/atlas-app-toolkit v1.1.1
 	github.com/prometheus/client_golang v1.11.0
 	github.com/prometheus/common v0.32.1 // indirect

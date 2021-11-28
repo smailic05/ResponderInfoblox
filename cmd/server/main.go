@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
-	"github.com/my-responder/pkg/dapr"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/smailic05/ResponderInfoblox/pkg/dapr"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
@@ -21,7 +21,8 @@ import (
 func main() {
 	doneC := make(chan error)
 	logger := NewLogger()
-	pubsub, err := dapr.InitPubsub("respond", "messages", viper.GetInt("dapr.appPort"), viper.GetInt("dapr.grpcport"), logger)
+	pubsub, err := dapr.InitPubsub(viper.GetString("dapr.publish.topic"), viper.GetString("dapr.pubsub.name"),
+		viper.GetInt("dapr.appPort"), viper.GetInt("dapr.grpcport"), logger)
 	if err != nil {
 		logger.Fatalf("Cannot initialize pubsub: %v", err)
 	}

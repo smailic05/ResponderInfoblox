@@ -3,15 +3,15 @@ package main
 import (
 	"time"
 
+	"github.com/github.com/smailic05/ResponderInfoblox/pkg/dapr"
+	"github.com/github.com/smailic05/ResponderInfoblox/pkg/pb"
+	"github.com/github.com/smailic05/ResponderInfoblox/pkg/svc"
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_logrus "github.com/grpc-ecosystem/go-grpc-middleware/logging/logrus"
 	grpc_validator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/infobloxopen/atlas-app-toolkit/gateway"
 	"github.com/infobloxopen/atlas-app-toolkit/requestid"
-	"github.com/my-responder/pkg/dapr"
-	"github.com/my-responder/pkg/pb"
-	"github.com/my-responder/pkg/svc"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
