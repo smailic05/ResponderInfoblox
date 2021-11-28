@@ -4,11 +4,10 @@ package pb
 
 import (
 	context "context"
-
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -20,7 +19,14 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MyResponderClient interface {
-	GetVersion(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VersionResponse, error)
+	GetVersion(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*VersionResponse, error)
+	UpdateDescription(ctx context.Context, in *UpdateDescriptionRequest, opts ...grpc.CallOption) (*UpdateDescriptionResponse, error)
+	GetDescription(ctx context.Context, in *GetDescriptionRequest, opts ...grpc.CallOption) (*GetDescriptionResponse, error)
+	GetUptime(ctx context.Context, in *GetUptimeRequest, opts ...grpc.CallOption) (*GetUptimeResponse, error)
+	GetRequests(ctx context.Context, in *GetRequestsRequest, opts ...grpc.CallOption) (*GetRequestsResponse, error)
+	GetMode(ctx context.Context, in *GetModeRequest, opts ...grpc.CallOption) (*GetModeResponse, error)
+	SetMode(ctx context.Context, in *SetModeRequest, opts ...grpc.CallOption) (*SetModeResponse, error)
+	Restart(ctx context.Context, in *RestartRequest, opts ...grpc.CallOption) (*RestartResponse, error)
 }
 
 type myResponderClient struct {
@@ -31,7 +37,7 @@ func NewMyResponderClient(cc grpc.ClientConnInterface) MyResponderClient {
 	return &myResponderClient{cc}
 }
 
-func (c *myResponderClient) GetVersion(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*VersionResponse, error) {
+func (c *myResponderClient) GetVersion(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*VersionResponse, error) {
 	out := new(VersionResponse)
 	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/GetVersion", in, out, opts...)
 	if err != nil {
@@ -40,20 +46,113 @@ func (c *myResponderClient) GetVersion(ctx context.Context, in *emptypb.Empty, o
 	return out, nil
 }
 
-// MyResponderServer is the server API for MyResponder service.
-// All implementations should embed UnimplementedMyResponderServer
-// for forward compatibility
-type MyResponderServer interface {
-	GetVersion(context.Context, *emptypb.Empty) (*VersionResponse, error)
+func (c *myResponderClient) UpdateDescription(ctx context.Context, in *UpdateDescriptionRequest, opts ...grpc.CallOption) (*UpdateDescriptionResponse, error) {
+	out := new(UpdateDescriptionResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/UpdateDescription", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedMyResponderServer should be embedded to have forward compatible implementations.
+func (c *myResponderClient) GetDescription(ctx context.Context, in *GetDescriptionRequest, opts ...grpc.CallOption) (*GetDescriptionResponse, error) {
+	out := new(GetDescriptionResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/GetDescription", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *myResponderClient) GetUptime(ctx context.Context, in *GetUptimeRequest, opts ...grpc.CallOption) (*GetUptimeResponse, error) {
+	out := new(GetUptimeResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/GetUptime", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *myResponderClient) GetRequests(ctx context.Context, in *GetRequestsRequest, opts ...grpc.CallOption) (*GetRequestsResponse, error) {
+	out := new(GetRequestsResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/GetRequests", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *myResponderClient) GetMode(ctx context.Context, in *GetModeRequest, opts ...grpc.CallOption) (*GetModeResponse, error) {
+	out := new(GetModeResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/GetMode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *myResponderClient) SetMode(ctx context.Context, in *SetModeRequest, opts ...grpc.CallOption) (*SetModeResponse, error) {
+	out := new(SetModeResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/SetMode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *myResponderClient) Restart(ctx context.Context, in *RestartRequest, opts ...grpc.CallOption) (*RestartResponse, error) {
+	out := new(RestartResponse)
+	err := c.cc.Invoke(ctx, "/myresponder.MyResponder/Restart", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// MyResponderServer is the server API for MyResponder service.
+// All implementations must embed UnimplementedMyResponderServer
+// for forward compatibility
+type MyResponderServer interface {
+	GetVersion(context.Context, *empty.Empty) (*VersionResponse, error)
+	UpdateDescription(context.Context, *UpdateDescriptionRequest) (*UpdateDescriptionResponse, error)
+	GetDescription(context.Context, *GetDescriptionRequest) (*GetDescriptionResponse, error)
+	GetUptime(context.Context, *GetUptimeRequest) (*GetUptimeResponse, error)
+	GetRequests(context.Context, *GetRequestsRequest) (*GetRequestsResponse, error)
+	GetMode(context.Context, *GetModeRequest) (*GetModeResponse, error)
+	SetMode(context.Context, *SetModeRequest) (*SetModeResponse, error)
+	Restart(context.Context, *RestartRequest) (*RestartResponse, error)
+	mustEmbedUnimplementedMyResponderServer()
+}
+
+// UnimplementedMyResponderServer must be embedded to have forward compatible implementations.
 type UnimplementedMyResponderServer struct {
 }
 
-func (UnimplementedMyResponderServer) GetVersion(context.Context, *emptypb.Empty) (*VersionResponse, error) {
+func (UnimplementedMyResponderServer) GetVersion(context.Context, *empty.Empty) (*VersionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetVersion not implemented")
 }
+func (UnimplementedMyResponderServer) UpdateDescription(context.Context, *UpdateDescriptionRequest) (*UpdateDescriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDescription not implemented")
+}
+func (UnimplementedMyResponderServer) GetDescription(context.Context, *GetDescriptionRequest) (*GetDescriptionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDescription not implemented")
+}
+func (UnimplementedMyResponderServer) GetUptime(context.Context, *GetUptimeRequest) (*GetUptimeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUptime not implemented")
+}
+func (UnimplementedMyResponderServer) GetRequests(context.Context, *GetRequestsRequest) (*GetRequestsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRequests not implemented")
+}
+func (UnimplementedMyResponderServer) GetMode(context.Context, *GetModeRequest) (*GetModeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMode not implemented")
+}
+func (UnimplementedMyResponderServer) SetMode(context.Context, *SetModeRequest) (*SetModeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetMode not implemented")
+}
+func (UnimplementedMyResponderServer) Restart(context.Context, *RestartRequest) (*RestartResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Restart not implemented")
+}
+func (UnimplementedMyResponderServer) mustEmbedUnimplementedMyResponderServer() {}
 
 // UnsafeMyResponderServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to MyResponderServer will
@@ -67,7 +166,7 @@ func RegisterMyResponderServer(s grpc.ServiceRegistrar, srv MyResponderServer) {
 }
 
 func _MyResponder_GetVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(emptypb.Empty)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -79,7 +178,133 @@ func _MyResponder_GetVersion_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: "/myresponder.MyResponder/GetVersion",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MyResponderServer).GetVersion(ctx, req.(*emptypb.Empty))
+		return srv.(MyResponderServer).GetVersion(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_UpdateDescription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateDescriptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).UpdateDescription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/UpdateDescription",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).UpdateDescription(ctx, req.(*UpdateDescriptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_GetDescription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDescriptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).GetDescription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/GetDescription",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).GetDescription(ctx, req.(*GetDescriptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_GetUptime_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUptimeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).GetUptime(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/GetUptime",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).GetUptime(ctx, req.(*GetUptimeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_GetRequests_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRequestsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).GetRequests(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/GetRequests",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).GetRequests(ctx, req.(*GetRequestsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_GetMode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetModeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).GetMode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/GetMode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).GetMode(ctx, req.(*GetModeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_SetMode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SetModeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).SetMode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/SetMode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).SetMode(ctx, req.(*SetModeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _MyResponder_Restart_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RestartRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MyResponderServer).Restart(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/myresponder.MyResponder/Restart",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MyResponderServer).Restart(ctx, req.(*RestartRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -95,7 +320,35 @@ var MyResponder_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetVersion",
 			Handler:    _MyResponder_GetVersion_Handler,
 		},
+		{
+			MethodName: "UpdateDescription",
+			Handler:    _MyResponder_UpdateDescription_Handler,
+		},
+		{
+			MethodName: "GetDescription",
+			Handler:    _MyResponder_GetDescription_Handler,
+		},
+		{
+			MethodName: "GetUptime",
+			Handler:    _MyResponder_GetUptime_Handler,
+		},
+		{
+			MethodName: "GetRequests",
+			Handler:    _MyResponder_GetRequests_Handler,
+		},
+		{
+			MethodName: "GetMode",
+			Handler:    _MyResponder_GetMode_Handler,
+		},
+		{
+			MethodName: "SetMode",
+			Handler:    _MyResponder_SetMode_Handler,
+		},
+		{
+			MethodName: "Restart",
+			Handler:    _MyResponder_Restart_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "github.com/my-responder/pkg/pb/service.proto",
+	Metadata: "pkg/pb/service.proto",
 }

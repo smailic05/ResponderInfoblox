@@ -9,16 +9,17 @@ import (
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/infobloxopen/atlas-app-toolkit/gateway"
 	"github.com/infobloxopen/atlas-app-toolkit/requestid"
-	"github.com/my-responder/pkg/pb"
-	"github.com/my-responder/pkg/svc"
 	"github.com/sirupsen/logrus"
+	"github.com/smailic05/ResponderInfoblox/pkg/dapr"
+	"github.com/smailic05/ResponderInfoblox/pkg/pb"
+	"github.com/smailic05/ResponderInfoblox/pkg/svc"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"
 )
 
-func NewGRPCServer(logger *logrus.Logger) (*grpc.Server, error) {
+func NewGRPCServer(logger *logrus.Logger, pubsub *dapr.PubSub) (*grpc.Server, error) {
 	grpcServer := grpc.NewServer(
 		grpc.KeepaliveParams(
 			keepalive.ServerParameters{
@@ -47,7 +48,7 @@ func NewGRPCServer(logger *logrus.Logger) (*grpc.Server, error) {
 	)
 
 	// register service implementation with the grpcServer
-	s, err := svc.NewBasicServer()
+	s, err := svc.NewBasicServer(pubsub)
 	if err != nil {
 		return nil, err
 	}

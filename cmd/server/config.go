@@ -70,6 +70,13 @@ const (
 
 	// Logging
 	defaultLoggingLevel = "debug"
+
+	// Dapr
+	defaultDaprPubsubName     = "messages"
+	defaultDaprGrpcPort       = 50001
+	defaultDaprPublishTopic   = "respond"
+	defaultDaprAppPort        = 1250
+	defaultDaprSubscribeTopic = "tobicsub"
 )
 
 var (
@@ -100,6 +107,12 @@ var (
 	flagPubsubPublish      = pflag.String("atlas.pubsub.publish", defaultPubsubPublish, "publisher topic")
 	flagPubsubSubscribe    = pflag.String("atlas.pubsub.subscribe", defaultPubsubSubscribe, "subscriber topic")
 	flagPubsubSubscriberID = pflag.String("atlas.pubsub.subscriber.id", defaultPubsubSubscriberID, "subscriber id")
+
+	flagDaprGrpcPort       = pflag.Int("dapr.grpcPort", defaultDaprGrpcPort, "port of dapr sidecar that receives pubsub messages")
+	flagDaprPublishTopic   = pflag.String("dapr.publish.topic", defaultDaprPublishTopic, "topic where dapr publish the new messages")
+	flagDaprAppPort        = pflag.Int("dapr.appPort", defaultDaprAppPort, "port of dapr sidecar that waits for the published messages")
+	flagDaprSubscribeTopic = pflag.String("dapr.subscribe.topic", defaultDaprSubscribeTopic, "topic name the dapr is subscribed to")
+	flagDaprPubsubName     = pflag.String("dapr.pubsub.name", defaultDaprPubsubName, "the dapr pubsub name")
 
 	flagAuthzEnable  = pflag.Bool("atlas.authz.enable", defaultAuthzEnable, "enable application with authorization")
 	flagAuthzAddress = pflag.String("atlas.authz.address", defaultAuthzAddress, "address or FQDN of the authorization service")

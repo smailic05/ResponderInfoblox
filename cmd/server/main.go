@@ -8,24 +8,29 @@ import (
 
 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/smailic05/ResponderInfoblox/pkg/dapr"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"github.com/infobloxopen/atlas-app-toolkit/server"
-
 	"github.com/infobloxopen/atlas-app-toolkit/gorm/resource"
+	"github.com/infobloxopen/atlas-app-toolkit/server"
 )
 
 func main() {
 	doneC := make(chan error)
 	logger := NewLogger()
+	pubsub, err := dapr.InitPubsub(viper.GetString("dapr.publish.topic"), viper.GetString("dapr.pubsub.name"),
+		viper.GetInt("dapr.appPort"), viper.GetInt("dapr.grpcport"), logger)
+	if err != nil {
+		logger.Fatalf("Cannot initialize pubsub: %v", err)
+	}
 	if viper.GetBool("internal.enable") {
 		go func() { doneC <- ServeInternal(logger) }()
 	}
 
-	go func() { doneC <- ServeExternal(logger) }()
+	go func() { doneC <- ServeExternal(logger, pubsub) }()
 
 	if err := <-doneC; err != nil {
 		logger.Fatal(err)
@@ -68,9 +73,9 @@ func ServeInternal(logger *logrus.Logger) error {
 }
 
 // ServeExternal builds and runs the server that listens on ServerAddress and GatewayAddress
-func ServeExternal(logger *logrus.Logger) error {
+func ServeExternal(logger *logrus.Logger, pubsub *dapr.PubSub) error {
 
-	grpcServer, err := NewGRPCServer(logger)
+	grpcServer, err := NewGRPCServer(logger, pubsub)
 	if err != nil {
 		logger.Fatalln(err)
 	}
