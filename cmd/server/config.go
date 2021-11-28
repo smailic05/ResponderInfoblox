@@ -72,9 +72,9 @@ const (
 	defaultLoggingLevel = "debug"
 
 	// Dapr
-	defaultDaprPubsubName     = "pubsub"
+	defaultDaprPubsubName     = "messages"
 	defaultDaprGrpcPort       = 50001
-	defaultDaprPublishTopic   = "topicpub"
+	defaultDaprPublishTopic   = "respond"
 	defaultDaprAppPort        = 1250
 	defaultDaprSubscribeTopic = "tobicsub"
 )
