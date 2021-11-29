@@ -99,9 +99,9 @@ func (p *PubSub) eventHandler(ctx context.Context, e *common.TopicEvent) (retry 
 		return false, err
 	}
 	p.Logger.Debug(message)
-	p.mtx.Lock()
+	p.mtx.RLock()
 	p.Buffer[message.Id] <- message
-	p.mtx.Unlock()
+	p.mtx.RUnlock()
 	return false, nil
 }
 
