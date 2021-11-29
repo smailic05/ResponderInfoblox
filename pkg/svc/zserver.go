@@ -2,6 +2,8 @@ package svc
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"strconv"
 	"sync"
 	"time"
@@ -55,7 +57,7 @@ func (s *server) GetDescription(ctx context.Context, req *pb.GetDescriptionReque
 		id := uuid.New()
 		data := dapr.Message{Id: id}
 		channel := make(chan dapr.Message)
-		s.pubsub.Buffer[id] = channel
+		s.pubsub.StoreMap(id, &channel)
 		s.pubsub.Publish(topics.GetDescriptionTopic, data)
 		select {
 		case <-time.After(time.Second * 5):
@@ -78,7 +80,7 @@ func (s *server) UpdateDescription(ctx context.Context, req *pb.UpdateDescriptio
 		id := uuid.New()
 		data := dapr.Message{Id: id, Data: req.Description}
 		channel := make(chan dapr.Message)
-		s.pubsub.Buffer[id] = channel
+		s.pubsub.StoreMap(id, &channel)
 		s.pubsub.Publish(topics.UpdateDescriptionTopic, data)
 		select {
 		case <-time.After(time.Second * 5):
@@ -99,7 +101,7 @@ func (s *server) GetUptime(ctx context.Context, req *pb.GetUptimeRequest) (*pb.G
 		id := uuid.New()
 		data := dapr.Message{Id: id}
 		channel := make(chan dapr.Message)
-		s.pubsub.Buffer[id] = channel
+		s.pubsub.StoreMap(id, &channel)
 		s.pubsub.Publish(topics.GetUptimeTopic, data)
 		select {
 		case <-time.After(time.Second * 5):
@@ -118,8 +120,8 @@ func (s *server) GetUptime(ctx context.Context, req *pb.GetUptimeRequest) (*pb.G
 	s.IncRequests()
 	data := dapr.Message{Id: id}
 	channel := make(chan dapr.Message)
-	s.pubsub.Buffer[id] = channel
-	s.pubsub.Publish(topics.GetUptimeTopic, data)
+	s.pubsub.StoreMap(id, &channel)
+	s.pubsub.Publish(topics.GetModeTopic, data)
 	select {
 	case <-time.After(time.Second * 5):
 		s.pubsub.DeleteFromMap(id)
@@ -130,6 +132,7 @@ func (s *server) GetUptime(ctx context.Context, req *pb.GetUptimeRequest) (*pb.G
 		if err != nil {
 			return nil, err
 		}
+		log.Print(i)
 		if i == 0 {
 			return &pb.GetUptimeResponse{}, status.Error(codes.Unavailable, "Service is Unavailable")
 		}
@@ -143,7 +146,7 @@ func (s *server) GetRequests(ctx context.Context, req *pb.GetRequestsRequest) (*
 		id := uuid.New()
 		data := dapr.Message{Id: id}
 		channel := make(chan dapr.Message)
-		s.pubsub.Buffer[id] = channel
+		s.pubsub.StoreMap(id, &channel)
 		s.pubsub.Publish(topics.GetRequestsTopic, data)
 		select {
 		case <-time.After(time.Second * 5):
@@ -166,7 +169,7 @@ func (s *server) GetMode(ctx context.Context, req *pb.GetModeRequest) (*pb.GetMo
 	id := uuid.New()
 	data := dapr.Message{Id: id}
 	channel := make(chan dapr.Message)
-	s.pubsub.Buffer[id] = channel
+	s.pubsub.StoreMap(id, &channel)
 	s.pubsub.Publish(topics.GetModeTopic, data)
 	select {
 	case <-time.After(time.Second * 5):
@@ -186,9 +189,11 @@ func (s *server) GetMode(ctx context.Context, req *pb.GetModeRequest) (*pb.GetMo
 
 func (s *server) SetMode(ctx context.Context, req *pb.SetModeRequest) (*pb.SetModeResponse, error) {
 	id := uuid.New()
-	data := dapr.Message{Id: id}
+	mode := fmt.Sprintf("%d", req.Mode)
+	log.Print(mode)
+	data := dapr.Message{Id: id, Data: mode}
 	channel := make(chan dapr.Message)
-	s.pubsub.Buffer[id] = channel
+	s.pubsub.StoreMap(id, &channel)
 	s.pubsub.Publish(topics.SetModeTopic, data)
 	select {
 	case <-time.After(time.Second * 5):
@@ -219,7 +224,7 @@ func (s *server) Restart(ctx context.Context, req *pb.RestartRequest) (*pb.Resta
 
 // NewBasicServer returns an instance of the default server interface
 func NewBasicServer(dapr *dapr.PubSub) (pb.MyResponderServer, error) {
-	return &server{Description: "Responder", Timestamp: time.Now(), pubsub: dapr}, nil
+	return &server{Description: viper.GetString("app.id"), Timestamp: time.Now(), pubsub: dapr}, nil
 }
 
 func (s *server) GetDescriptionFromServer() string {

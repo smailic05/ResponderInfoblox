@@ -44,7 +44,7 @@ func InitPubsub(topic string, pubsubName string, appPort int, grpcPort int, log 
 	}
 
 	if appPort >= 1 {
-		if ps.client, err = ps.initPublisher(grpcPort); err != nil {
+		if ps.client, err = ps.initPublisher(); err != nil {
 			return nil, err
 		}
 		init = true
@@ -56,7 +56,7 @@ func InitPubsub(topic string, pubsubName string, appPort int, grpcPort int, log 
 	return nil, fmt.Errorf("pubsub disabled")
 }
 
-func (p *PubSub) initPublisher(port int) (client.Client, error) {
+func (p *PubSub) initPublisher() (client.Client, error) {
 	clientPub, err := client.NewClient()
 	if err != nil {
 		return nil, fmt.Errorf("failed to open atlas pubsub connection: %v", err)
@@ -120,5 +120,11 @@ func (p *PubSub) Publish(topic string, msg Message) error {
 func (p *PubSub) DeleteFromMap(id uuid.UUID) {
 	p.mtx.Lock()
 	delete(p.Buffer, id)
+	p.mtx.Unlock()
+}
+
+func (p *PubSub) StoreMap(id uuid.UUID, channel *chan Message) {
+	p.mtx.Lock()
+	p.Buffer[id] = *channel
 	p.mtx.Unlock()
 }
