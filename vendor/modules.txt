@@ -1,10 +1,22 @@
 # github.com/beorn7/perks v1.0.1
 github.com/beorn7/perks/quantile
-# github.com/cespare/xxhash/v2 v2.1.1
-github.com/cespare/xxhash/v2
-# github.com/envoyproxy/protoc-gen-validate v0.6.2
+# github.com/cespare/xxhash/v2 v2.1.2
 ## explicit
-github.com/envoyproxy/protoc-gen-validate/validate
+github.com/cespare/xxhash/v2
+# github.com/dapr/dapr v1.5.0
+## explicit
+github.com/dapr/dapr/pkg/proto/common/v1
+github.com/dapr/dapr/pkg/proto/runtime/v1
+# github.com/dapr/go-sdk v1.3.0
+## explicit
+github.com/dapr/go-sdk/actor
+github.com/dapr/go-sdk/actor/codec
+github.com/dapr/go-sdk/actor/codec/constant
+github.com/dapr/go-sdk/actor/codec/impl
+github.com/dapr/go-sdk/actor/config
+github.com/dapr/go-sdk/client
+github.com/dapr/go-sdk/service/common
+github.com/dapr/go-sdk/service/grpc
 # github.com/fsnotify/fsnotify v1.5.1
 github.com/fsnotify/fsnotify
 # github.com/golang/protobuf v1.5.2
@@ -17,7 +29,8 @@ github.com/golang/protobuf/ptypes/any
 github.com/golang/protobuf/ptypes/duration
 github.com/golang/protobuf/ptypes/empty
 github.com/golang/protobuf/ptypes/timestamp
-# github.com/google/uuid v1.2.0
+# github.com/google/uuid v1.3.0
+## explicit
 github.com/google/uuid
 # github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 ## explicit
@@ -30,7 +43,7 @@ github.com/grpc-ecosystem/go-grpc-middleware/validator
 # github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 ## explicit
 github.com/grpc-ecosystem/go-grpc-prometheus
-# github.com/grpc-ecosystem/grpc-gateway/v2 v2.6.0
+# github.com/grpc-ecosystem/grpc-gateway/v2 v2.7.0
 ## explicit
 github.com/grpc-ecosystem/grpc-gateway/v2/internal/httprule
 github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2/options
@@ -62,12 +75,14 @@ github.com/infobloxopen/atlas-app-toolkit/server
 github.com/infobloxopen/atlas-app-toolkit/util
 # github.com/magiconair/properties v1.8.5
 github.com/magiconair/properties
-# github.com/matttproud/golang_protobuf_extensions v1.0.1
+# github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369
 github.com/matttproud/golang_protobuf_extensions/pbutil
 # github.com/mitchellh/mapstructure v1.4.2
 github.com/mitchellh/mapstructure
 # github.com/pelletier/go-toml v1.9.4
 github.com/pelletier/go-toml
+# github.com/pkg/errors v0.9.1
+github.com/pkg/errors
 # github.com/prometheus/client_golang v1.11.0
 ## explicit
 github.com/prometheus/client_golang/prometheus
@@ -75,11 +90,13 @@ github.com/prometheus/client_golang/prometheus/internal
 github.com/prometheus/client_golang/prometheus/promhttp
 # github.com/prometheus/client_model v0.2.0
 github.com/prometheus/client_model/go
-# github.com/prometheus/common v0.26.0
+# github.com/prometheus/common v0.32.1
+## explicit
 github.com/prometheus/common/expfmt
 github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg
 github.com/prometheus/common/model
-# github.com/prometheus/procfs v0.6.0
+# github.com/prometheus/procfs v0.7.3
+## explicit
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
@@ -106,7 +123,8 @@ github.com/spf13/viper/internal/encoding/toml
 github.com/spf13/viper/internal/encoding/yaml
 # github.com/subosito/gotenv v1.2.0
 github.com/subosito/gotenv
-# golang.org/x/net v0.0.0-20210813160813-60bc85c4be6d
+# golang.org/x/net v0.0.0-20211118161319-6a13c67c3ce4
+## explicit
 golang.org/x/net/context
 golang.org/x/net/http/httpguts
 golang.org/x/net/http2
@@ -114,16 +132,18 @@ golang.org/x/net/http2/hpack
 golang.org/x/net/idna
 golang.org/x/net/internal/timeseries
 golang.org/x/net/trace
-# golang.org/x/sys v0.0.0-20210823070655-63515b42dcdf
+# golang.org/x/sys v0.0.0-20211117180635-dee7805ff2e1
+## explicit
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 golang.org/x/sys/windows
 # golang.org/x/text v0.3.7
+## explicit
 golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# google.golang.org/genproto v0.0.0-20211117155847-120650a500bb
+# google.golang.org/genproto v0.0.0-20211118181313-81c1377c94b1
 ## explicit
 google.golang.org/genproto/googleapis/api/annotations
 google.golang.org/genproto/googleapis/api/httpbody
@@ -217,8 +237,11 @@ google.golang.org/protobuf/types/known/fieldmaskpb
 google.golang.org/protobuf/types/known/structpb
 google.golang.org/protobuf/types/known/timestamppb
 google.golang.org/protobuf/types/known/wrapperspb
-# gopkg.in/ini.v1 v1.63.2
+# gopkg.in/ini.v1 v1.64.0
+## explicit
 gopkg.in/ini.v1
 # gopkg.in/yaml.v2 v2.4.0
 gopkg.in/yaml.v2
+# gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+gopkg.in/yaml.v3
 # github.com/spf13/afero => github.com/spf13/afero v1.5.1
