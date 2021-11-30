@@ -100,8 +100,12 @@ func (p *PubSub) eventHandler(ctx context.Context, e *common.TopicEvent) (retry 
 	}
 	p.Logger.Debug(message)
 	p.mtx.RLock()
-	p.Buffer[message.Id] <- message
-	p.mtx.RUnlock()
+	defer p.mtx.RUnlock()
+	channel, ok := p.Buffer[message.Id]
+	if !ok {
+		return false, nil
+	}
+	channel <- message
 	return false, nil
 }
 
